@@ -37,4 +37,7 @@ class RestaurantRepository(
 
     suspend fun deleteDish(id: Long) =
         dishDao.deleteById(id)
+
+    suspend fun deleteAllRestaurants() =
+        restaurantDao.deleteAll()
 }

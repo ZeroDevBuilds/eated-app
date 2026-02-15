@@ -23,6 +23,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -66,7 +67,8 @@ fun RestaurantListScreen(
     onEditRestaurant: (Long) -> Unit,
     onAddDish: (Long) -> Unit,
     onBatchAddDish: (Long) -> Unit,
-    onEditDish: (Long) -> Unit
+    onEditDish: (Long) -> Unit,
+    onOpenSettings: () -> Unit = {}
 ) {
     val restaurants by viewModel.restaurants.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -79,6 +81,15 @@ fun RestaurantListScreen(
                         "Eated",
                         fontWeight = FontWeight.Bold
                     )
+                },
+                actions = {
+                    IconButton(onClick = onOpenSettings) {
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = "Settings",
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,

@@ -16,6 +16,7 @@ import com.zerodevbuilds.eated.ui.screen.restaurantform.RestaurantFormScreen
 import com.zerodevbuilds.eated.ui.screen.restaurantform.RestaurantFormViewModel
 import com.zerodevbuilds.eated.ui.screen.restaurantlist.RestaurantListScreen
 import com.zerodevbuilds.eated.ui.screen.restaurantlist.RestaurantListViewModel
+import com.zerodevbuilds.eated.ui.screen.settings.SettingsScreen
 
 object Routes {
     const val RESTAURANT_LIST = "restaurant_list"
@@ -24,6 +25,7 @@ object Routes {
     const val ADD_DISH = "dish_form/{restaurantId}"
     const val EDIT_DISH = "dish_form_edit/{dishId}"
     const val BATCH_DISH = "batch_dish/{restaurantId}"
+    const val SETTINGS = "settings"
 }
 
 @Composable
@@ -41,7 +43,8 @@ fun EatedNavigation(repository: RestaurantRepository) {
                 onEditRestaurant = { id -> navController.navigate("restaurant_form/$id") },
                 onAddDish = { restaurantId -> navController.navigate("dish_form/$restaurantId") },
                 onBatchAddDish = { restaurantId -> navController.navigate("batch_dish/$restaurantId") },
-                onEditDish = { dishId -> navController.navigate("dish_form_edit/$dishId") }
+                onEditDish = { dishId -> navController.navigate("dish_form_edit/$dishId") },
+                onOpenSettings = { navController.navigate(Routes.SETTINGS) }
             )
         }
 
@@ -94,6 +97,13 @@ fun EatedNavigation(repository: RestaurantRepository) {
                 factory = BatchDishViewModel.factory(repository, restaurantId)
             )
             BatchDishScreen(viewModel = vm, onNavigateBack = { navController.popBackStack() })
+        }
+
+        composable(Routes.SETTINGS) {
+            SettingsScreen(
+                repository = repository,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

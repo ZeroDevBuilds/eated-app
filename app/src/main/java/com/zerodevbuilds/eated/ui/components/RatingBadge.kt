@@ -22,7 +22,7 @@ fun RatingBadge(
     rating: Int,
     modifier: Modifier = Modifier,
     label: String = "Overall: $rating/10",
-    fontSize: TextUnit = 13.sp
+    fontSize: TextUnit = 11.sp
 ) {
     val color = ratingColor(rating)
     val bg = ratingBgColor(rating)

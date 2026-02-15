@@ -3,7 +3,7 @@ package com.zerodevbuilds.eated.ui.theme
 import androidx.compose.ui.graphics.Color
 
 // Primary — Deep coral/red-orange
-val Primary = Color(0xFFD83A2F)
+val Primary = Color(0xFFC75F71)
 val OnPrimary = Color(0xFFFFFFFF)
 val PrimaryContainer = Color(0xFFFFDAD5)
 val OnPrimaryContainer = Color(0xFF410002)
@@ -49,7 +49,7 @@ val DarkOnSurfaceVariant = Color(0xFFD8C2BF)
 val DarkOutline = Color(0xFFA08C8A)
 
 // Dark primary
-val DarkPrimary = Color(0xFFFFB4AB)
+val DarkPrimary = Color(0xFFC75F71)
 val DarkOnPrimary = Color(0xFF690005)
 val DarkPrimaryContainer = Color(0xFF93000A)
 val DarkOnPrimaryContainer = Color(0xFFFFDAD5)
@@ -68,7 +68,7 @@ val DarkOnTertiaryContainer = Color(0xFFFFDDB3)
 
 // Rating tier colors
 val RatingGood = Color(0xFF2E7D32)
-val RatingOkay = Color(0xFFE65100)
+val RatingOkay = Color(0xFFF28F3B)
 val RatingBad = Color(0xFFC62828)
 
 val RatingGoodBg = Color(0xFFE8F5E9)

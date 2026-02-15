@@ -5,11 +5,13 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -24,22 +26,23 @@ fun RatingBadge(
     label: String = "Overall: $rating/10",
     fontSize: TextUnit = 11.sp
 ) {
-    val color = ratingColor(rating)
-    val bg = ratingBgColor(rating)
-    val shape = RoundedCornerShape(8.dp)
+    val color = ratingBgColor(rating)
+    val bg = ratingColor(rating)
+    val shape = RoundedCornerShape(16.dp)
 
     Box(
         modifier = modifier
             .clip(shape)
             .background(bg)
             .border(1.dp, color, shape)
-            .padding(horizontal = 10.dp, vertical = 4.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
             text = label,
             color = color,
             fontSize = fontSize,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }
@@ -48,24 +51,25 @@ fun RatingBadge(
 fun RatingBadgeAvg(
     avg: Double,
     modifier: Modifier = Modifier,
-    fontSize: TextUnit = 12.sp
+    fontSize: TextUnit = 11.sp
 ) {
-    val color = ratingColor(avg)
-    val bg = ratingBgColor(avg)
-    val shape = RoundedCornerShape(8.dp)
+    val color = ratingBgColor(avg)
+    val bg = ratingColor(avg)
+    val shape = RoundedCornerShape(16.dp)
 
     Box(
         modifier = modifier
             .clip(shape)
             .background(bg)
             .border(1.dp, color.copy(alpha = 0.5f), shape)
-            .padding(horizontal = 8.dp, vertical = 3.dp)
+            .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
             text = "Dish avg: %.1f".format(avg),
             color = color,
             fontSize = fontSize,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }

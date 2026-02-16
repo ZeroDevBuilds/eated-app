@@ -19,7 +19,7 @@ object BackupManager {
 
         for (br in backupRestaurants) {
             val restaurantId = repository.insertRestaurant(
-                RestaurantEntity(name = br.name, rating = br.rating)
+                RestaurantEntity(name = br.name, rating = br.rating, flair = br.flair)
             )
             for (bd in br.dishes) {
                 repository.insertDish(

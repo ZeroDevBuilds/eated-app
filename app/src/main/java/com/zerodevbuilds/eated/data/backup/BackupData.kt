@@ -14,6 +14,7 @@ data class BackupData(
 data class BackupRestaurant(
     val name: String,
     val rating: Int,
+    val flair: String = "",
     val dishes: List<BackupDish>
 )
 
@@ -33,6 +34,7 @@ fun toJson(data: List<RestaurantWithDishes>): String {
         val rObj = JSONObject()
         rObj.put("name", rwd.restaurant.name)
         rObj.put("rating", rwd.restaurant.rating)
+        rObj.put("flair", rwd.restaurant.flair)
 
         val dishesArray = JSONArray()
         for (dish in rwd.dishes) {
@@ -75,6 +77,7 @@ fun fromJson(jsonString: String): List<BackupRestaurant> {
             BackupRestaurant(
                 name = rObj.optString("name", ""),
                 rating = rObj.optInt("rating", 5),
+                flair = rObj.optString("flair", ""),
                 dishes = dishes
             )
         )

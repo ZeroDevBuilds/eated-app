@@ -9,13 +9,14 @@ import com.zerodevbuilds.eated.data.local.dao.DishDao
 import com.zerodevbuilds.eated.data.local.dao.RestaurantDao
 import com.zerodevbuilds.eated.data.local.entity.DishEntity
 import com.zerodevbuilds.eated.data.local.entity.RestaurantEntity
+import androidx.room.migration.Migration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Database(
     entities = [RestaurantEntity::class, DishEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class EatedDatabase : RoomDatabase() {
@@ -26,6 +27,12 @@ abstract class EatedDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: EatedDatabase? = null
 
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE restaurants ADD COLUMN flair TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
         fun getDatabase(context: Context): EatedDatabase {
             return INSTANCE ?: synchronized(this) {
                 Room.databaseBuilder(
@@ -33,6 +40,7 @@ abstract class EatedDatabase : RoomDatabase() {
                     EatedDatabase::class.java,
                     "eated_database"
                 )
+                    .addMigrations(MIGRATION_1_2)
                     .addCallback(SeedCallback())
                     .build()
                     .also { INSTANCE = it }

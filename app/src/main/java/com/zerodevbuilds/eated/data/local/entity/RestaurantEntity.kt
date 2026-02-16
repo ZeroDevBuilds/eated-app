@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class RestaurantEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val name: String,
-    val rating: Int
+    val rating: Int,
+    val flair: String = ""
 )

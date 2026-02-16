@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 data class RestaurantFormState(
     val name: String = "",
+    val flair: String = "",
     val rating: Int = 5,
     val isEdit: Boolean = false,
     val isLoading: Boolean = false,
@@ -34,6 +35,7 @@ class RestaurantFormViewModel(
                 if (restaurant != null) {
                     _state.value = _state.value.copy(
                         name = restaurant.name,
+                        flair = restaurant.flair,
                         rating = restaurant.rating,
                         isLoading = false
                     )
@@ -46,6 +48,10 @@ class RestaurantFormViewModel(
         _state.value = _state.value.copy(name = name)
     }
 
+    fun onFlairChange(flair: String) {
+        _state.value = _state.value.copy(flair = flair)
+    }
+
     fun onRatingChange(rating: Int) {
         _state.value = _state.value.copy(rating = rating)
     }
@@ -56,11 +62,11 @@ class RestaurantFormViewModel(
         viewModelScope.launch {
             if (restaurantId != null) {
                 repository.updateRestaurant(
-                    RestaurantEntity(id = restaurantId, name = s.name.trim(), rating = s.rating)
+                    RestaurantEntity(id = restaurantId, name = s.name.trim(), flair = s.flair.trim(), rating = s.rating)
                 )
             } else {
                 repository.insertRestaurant(
-                    RestaurantEntity(name = s.name.trim(), rating = s.rating)
+                    RestaurantEntity(name = s.name.trim(), flair = s.flair.trim(), rating = s.rating)
                 )
             }
             _state.value = _state.value.copy(isSaved = true)

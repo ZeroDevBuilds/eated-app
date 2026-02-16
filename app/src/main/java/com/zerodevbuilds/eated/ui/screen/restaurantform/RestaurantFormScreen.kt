@@ -104,6 +104,17 @@ fun RestaurantFormScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = state.flair,
+                onValueChange = viewModel::onFlairChange,
+                label = { Text("Flair (optional)") },
+                placeholder = { Text("A short note about this place...") },
+                singleLine = true,
+                modifier = Modifier.fillMaxWidth()
+            )
+
             Spacer(modifier = Modifier.height(20.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {

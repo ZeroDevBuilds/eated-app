@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [RestaurantEntity::class, DishEntity::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class EatedDatabase : RoomDatabase() {
@@ -30,6 +30,14 @@ abstract class EatedDatabase : RoomDatabase() {
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL("ALTER TABLE restaurants ADD COLUMN flair TEXT NOT NULL DEFAULT ''")
+            }
+        }
+
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                val now = System.currentTimeMillis()
+                db.execSQL("ALTER TABLE restaurants ADD COLUMN createdAt INTEGER NOT NULL DEFAULT $now")
+                db.execSQL("ALTER TABLE restaurants ADD COLUMN modifiedAt INTEGER NOT NULL DEFAULT $now")
             }
         }
 
@@ -57,7 +65,7 @@ abstract class EatedDatabase : RoomDatabase() {
                     EatedDatabase::class.java,
                     "eated_database"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .addCallback(SeedCallback())
                     .build()
                     .also { INSTANCE = it }

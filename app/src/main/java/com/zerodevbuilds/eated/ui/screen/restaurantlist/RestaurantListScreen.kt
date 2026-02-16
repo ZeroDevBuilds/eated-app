@@ -27,6 +27,8 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -73,6 +75,7 @@ fun RestaurantListScreen(
 ) {
     val restaurants by viewModel.restaurants.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
+    val currentSort by viewModel.sortOption.collectAsState()
 
     Scaffold(
         topBar = {
@@ -144,6 +147,25 @@ fun RestaurantListScreen(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
             )
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                SortOption.entries.forEach { option ->
+                    FilterChip(
+                        selected = currentSort == option,
+                        onClick = { viewModel.onSortOptionChange(option) },
+                        label = { Text(option.label, style = MaterialTheme.typography.labelSmall) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary
+                        )
+                    )
+                }
+            }
 
             if (restaurants.isEmpty()) {
                 Box(

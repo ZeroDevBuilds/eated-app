@@ -18,8 +18,15 @@ object BackupManager {
         repository.deleteAllRestaurants()
 
         for (br in backupRestaurants) {
+            val now = System.currentTimeMillis()
             val restaurantId = repository.insertRestaurant(
-                RestaurantEntity(name = br.name, rating = br.rating, flair = br.flair)
+                RestaurantEntity(
+                    name = br.name,
+                    rating = br.rating,
+                    flair = br.flair,
+                    createdAt = if (br.createdAt > 0) br.createdAt else now,
+                    modifiedAt = if (br.modifiedAt > 0) br.modifiedAt else now
+                )
             )
             for (bd in br.dishes) {
                 repository.insertDish(

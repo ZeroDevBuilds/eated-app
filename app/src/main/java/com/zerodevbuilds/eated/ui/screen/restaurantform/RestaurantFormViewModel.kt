@@ -13,6 +13,7 @@ data class RestaurantFormState(
     val name: String = "",
     val flair: String = "",
     val rating: Int? = null,
+    val createdAt: Long = 0L,
     val isEdit: Boolean = false,
     val isLoading: Boolean = false,
     val isSaved: Boolean = false,
@@ -37,6 +38,7 @@ class RestaurantFormViewModel(
                         name = restaurant.name,
                         flair = restaurant.flair,
                         rating = restaurant.rating,
+                        createdAt = restaurant.createdAt,
                         isLoading = false
                     )
                 }
@@ -60,13 +62,27 @@ class RestaurantFormViewModel(
         val s = _state.value
         if (s.name.isBlank()) return
         viewModelScope.launch {
+            val now = System.currentTimeMillis()
             if (restaurantId != null) {
                 repository.updateRestaurant(
-                    RestaurantEntity(id = restaurantId, name = s.name.trim(), flair = s.flair.trim(), rating = s.rating)
+                    RestaurantEntity(
+                        id = restaurantId,
+                        name = s.name.trim(),
+                        flair = s.flair.trim(),
+                        rating = s.rating,
+                        createdAt = s.createdAt,
+                        modifiedAt = now
+                    )
                 )
             } else {
                 repository.insertRestaurant(
-                    RestaurantEntity(name = s.name.trim(), flair = s.flair.trim(), rating = s.rating)
+                    RestaurantEntity(
+                        name = s.name.trim(),
+                        flair = s.flair.trim(),
+                        rating = s.rating,
+                        createdAt = now,
+                        modifiedAt = now
+                    )
                 )
             }
             _state.value = _state.value.copy(isSaved = true)

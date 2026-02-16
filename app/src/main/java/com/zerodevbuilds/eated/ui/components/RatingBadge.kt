@@ -21,9 +21,9 @@ import com.zerodevbuilds.eated.ui.theme.ratingColor
 
 @Composable
 fun RatingBadge(
-    rating: Int,
+    rating: Int?,
     modifier: Modifier = Modifier,
-    label: String = "Overall: $rating/10",
+    label: String = if (rating != null) "Overall: $rating/10" else "Not rated",
     fontSize: TextUnit = 11.sp
 ) {
     val color = ratingBgColor(rating)

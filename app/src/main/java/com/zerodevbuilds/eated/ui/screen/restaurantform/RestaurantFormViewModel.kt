@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 data class RestaurantFormState(
     val name: String = "",
     val flair: String = "",
-    val rating: Int = 5,
+    val rating: Int? = null,
     val isEdit: Boolean = false,
     val isLoading: Boolean = false,
     val isSaved: Boolean = false,
@@ -52,7 +52,7 @@ class RestaurantFormViewModel(
         _state.value = _state.value.copy(flair = flair)
     }
 
-    fun onRatingChange(rating: Int) {
+    fun onRatingChange(rating: Int?) {
         _state.value = _state.value.copy(rating = rating)
     }
 

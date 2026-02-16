@@ -137,7 +137,7 @@ private fun DishEntryCard(
     entry: BatchDishEntry,
     canRemove: Boolean,
     onNameChange: (String) -> Unit,
-    onRatingChange: (Int) -> Unit,
+    onRatingChange: (Int?) -> Unit,
     onNotesChange: (String) -> Unit,
     onRemove: () -> Unit
 ) {

@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 data class BatchDishEntry(
     val name: String = "",
-    val rating: Int = 5,
+    val rating: Int? = null,
     val notes: String = ""
 )
 
@@ -36,7 +36,7 @@ class BatchDishViewModel(
         )
     }
 
-    fun onRatingChange(index: Int, rating: Int) {
+    fun onRatingChange(index: Int, rating: Int?) {
         _state.value = _state.value.copy(
             entries = _state.value.entries.toMutableList().also {
                 it[index] = it[index].copy(rating = rating)

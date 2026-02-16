@@ -8,11 +8,12 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun SentimentIcon(
-    rating: Int,
+    rating: Int?,
     modifier: Modifier = Modifier,
     fontSize: TextUnit = 24.sp
 ) {
     val emoji = when {
+        rating == null -> "\uD83E\uDD37"
         rating >= 8 -> "\uD83D\uDE0A"
         rating >= 5 -> "\uD83D\uDE10"
         else -> "\uD83D\uDE1E"

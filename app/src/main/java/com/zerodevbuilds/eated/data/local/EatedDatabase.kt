@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 
 @Database(
     entities = [RestaurantEntity::class, DishEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class EatedDatabase : RoomDatabase() {
@@ -33,6 +33,23 @@ abstract class EatedDatabase : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Recreate restaurants table with nullable rating
+                db.execSQL("CREATE TABLE restaurants_new (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name TEXT NOT NULL, rating INTEGER, flair TEXT NOT NULL DEFAULT '')")
+                db.execSQL("INSERT INTO restaurants_new (id, name, rating, flair) SELECT id, name, rating, flair FROM restaurants")
+                db.execSQL("DROP TABLE restaurants")
+                db.execSQL("ALTER TABLE restaurants_new RENAME TO restaurants")
+
+                // Recreate dishes table with nullable rating
+                db.execSQL("CREATE TABLE dishes_new (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, restaurantId INTEGER NOT NULL, name TEXT NOT NULL, rating INTEGER, notes TEXT NOT NULL DEFAULT '', FOREIGN KEY(restaurantId) REFERENCES restaurants(id) ON DELETE CASCADE)")
+                db.execSQL("INSERT INTO dishes_new (id, restaurantId, name, rating, notes) SELECT id, restaurantId, name, rating, notes FROM dishes")
+                db.execSQL("DROP TABLE dishes")
+                db.execSQL("ALTER TABLE dishes_new RENAME TO dishes")
+                db.execSQL("CREATE INDEX IF NOT EXISTS index_dishes_restaurantId ON dishes (restaurantId)")
+            }
+        }
+
         fun getDatabase(context: Context): EatedDatabase {
             return INSTANCE ?: synchronized(this) {
                 Room.databaseBuilder(
@@ -40,7 +57,7 @@ abstract class EatedDatabase : RoomDatabase() {
                     EatedDatabase::class.java,
                     "eated_database"
                 )
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .addCallback(SeedCallback())
                     .build()
                     .also { INSTANCE = it }

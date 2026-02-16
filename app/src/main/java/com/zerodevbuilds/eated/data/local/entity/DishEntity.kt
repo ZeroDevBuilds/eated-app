@@ -21,6 +21,6 @@ data class DishEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val restaurantId: Long,
     val name: String,
-    val rating: Int,
+    val rating: Int? = null,
     val notes: String = ""
 )

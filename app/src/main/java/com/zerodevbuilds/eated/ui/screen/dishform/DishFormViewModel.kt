@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 data class DishFormState(
     val name: String = "",
-    val rating: Int = 5,
+    val rating: Int? = null,
     val notes: String = "",
     val isEdit: Boolean = false,
     val isLoading: Boolean = false,
@@ -52,7 +52,7 @@ class DishFormViewModel(
         _state.value = _state.value.copy(name = name)
     }
 
-    fun onRatingChange(rating: Int) {
+    fun onRatingChange(rating: Int?) {
         _state.value = _state.value.copy(rating = rating)
     }
 

@@ -75,7 +75,11 @@ val RatingGoodBg = Color(0xFFE8F5E9)
 val RatingOkayBg = Color(0xFFFFF3E0)
 val RatingBadBg = Color(0xFFFFEBEE)
 
-fun ratingColor(value: Int): Color = when {
+val RatingNone = Color(0xFF9E9E9E)
+val RatingNoneBg = Color(0xFFF5F5F5)
+
+fun ratingColor(value: Int?): Color = when {
+    value == null -> RatingNone
     value >= 8 -> RatingGood
     value >= 5 -> RatingOkay
     else -> RatingBad
@@ -87,7 +91,8 @@ fun ratingColor(value: Double): Color = when {
     else -> RatingBad
 }
 
-fun ratingBgColor(value: Int): Color = when {
+fun ratingBgColor(value: Int?): Color = when {
+    value == null -> RatingNoneBg
     value >= 8 -> RatingGoodBg
     value >= 5 -> RatingOkayBg
     else -> RatingBadBg

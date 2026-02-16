@@ -43,6 +43,6 @@ class RestaurantListViewModel(
 }
 
 fun calculateDishAverage(restaurantWithDishes: RestaurantWithDishes): Double? {
-    val dishes = restaurantWithDishes.dishes
-    return if (dishes.isEmpty()) null else dishes.map { it.rating }.average()
+    val rated = restaurantWithDishes.dishes.mapNotNull { it.rating }
+    return if (rated.isEmpty()) null else rated.average()
 }

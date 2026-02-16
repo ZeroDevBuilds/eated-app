@@ -13,14 +13,14 @@ data class BackupData(
 
 data class BackupRestaurant(
     val name: String,
-    val rating: Int,
+    val rating: Int?,
     val flair: String = "",
     val dishes: List<BackupDish>
 )
 
 data class BackupDish(
     val name: String,
-    val rating: Int,
+    val rating: Int?,
     val notes: String
 )
 
@@ -33,14 +33,14 @@ fun toJson(data: List<RestaurantWithDishes>): String {
     for (rwd in data) {
         val rObj = JSONObject()
         rObj.put("name", rwd.restaurant.name)
-        rObj.put("rating", rwd.restaurant.rating)
+        rObj.put("rating", rwd.restaurant.rating ?: JSONObject.NULL)
         rObj.put("flair", rwd.restaurant.flair)
 
         val dishesArray = JSONArray()
         for (dish in rwd.dishes) {
             val dObj = JSONObject()
             dObj.put("name", dish.name)
-            dObj.put("rating", dish.rating)
+            dObj.put("rating", dish.rating ?: JSONObject.NULL)
             dObj.put("notes", dish.notes)
             dishesArray.put(dObj)
         }
@@ -67,7 +67,7 @@ fun fromJson(jsonString: String): List<BackupRestaurant> {
             dishes.add(
                 BackupDish(
                     name = dObj.optString("name", ""),
-                    rating = dObj.optInt("rating", 5),
+                    rating = if (dObj.isNull("rating")) null else dObj.optInt("rating", 5),
                     notes = dObj.optString("notes", "")
                 )
             )
@@ -76,7 +76,7 @@ fun fromJson(jsonString: String): List<BackupRestaurant> {
         result.add(
             BackupRestaurant(
                 name = rObj.optString("name", ""),
-                rating = rObj.optInt("rating", 5),
+                rating = if (rObj.isNull("rating")) null else rObj.optInt("rating", 5),
                 flair = rObj.optString("flair", ""),
                 dishes = dishes
             )
